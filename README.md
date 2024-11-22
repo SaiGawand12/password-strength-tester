@@ -85,7 +85,7 @@ You can change these messages in the `showPopup()` function within the JavaScrip
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICSENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
