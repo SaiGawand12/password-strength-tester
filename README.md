@@ -18,7 +18,7 @@ This is a simple Password Strength Tester web application built with HTML, CSS, 
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your-username/password-strength-tester.git
+    git clone https://github.com/SaiGawand12/password-strength-tester.git
     cd password-strength-tester
     ```
 
