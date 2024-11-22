@@ -1,16 +1,11 @@
-
-
 # Password Strength Tester
 
-This is a simple Password Strength Tester web application built with HTML, CSS, and JavaScript. It checks the strength of a password in real-time and provides feedback to the user, including a fun pop-up with humorous messages based on the password strength.
+This is a simple Password Strength Tester web application built with HTML, CSS, JavaScript, and Flask (Python). It checks the strength of a password in real-time, provides feedback, and displays a humorous pop-up based on the password strength.
 
 ### Features:
 - **Real-time password strength analysis**: As the user types, the strength of their password is evaluated.
 - **Strength bar**: A color-coded bar visualizes the strength of the password.
-- **Humorous feedback**: A pop-up with funny and rude messages that "make fun" of the password strength, such as:
-  - Weak Password: "Your password is as weak as a wet noodle."
-  - Moderate Password: "Your password is decent, but you can do better."
-  - Strong Password: "Great job! Your password is rock solid!"
+- **Humorous feedback**: A pop-up with funny and rude messages that "make fun" of the password strength.
 - **Responsive design**: Works on both desktop and mobile devices.
 - **Smooth animations**: The pop-up slides in after the user leaves the password input field.
 
@@ -18,28 +13,44 @@ This is a simple Password Strength Tester web application built with HTML, CSS, 
 
 ## Installation
 
-To get started with the Password Strength Tester, follow these steps:
+### Backend Setup (Flask)
 
-### 1. Clone the repository
+1. Clone the repository:
 
-Clone the project to your local machine using:
+    ```bash
+    git clone https://github.com/your-username/password-strength-tester.git
+    cd password-strength-tester
+    ```
 
-```bash
-git clone https://github.com/SaiGawnd12/password-strength-tester.git
-```
+2. Install Flask:
 
-### 2. Open the project in a web browser
+    ```bash
+    pip install Flask
+    ```
 
-You can simply open the `index.html` file in any modern web browser. No server setup is required for the basic functionality.
+3. Run the Flask server:
+
+    ```bash
+    python app.py
+    ```
+
+    The Flask server will run at `http://127.0.0.1:5000/`.
 
 ---
 
-## How to Use
+### Frontend Setup
 
-1. Open the `index.html` file in your browser.
+1. Open the `index.html` file in a web browser.
 2. Enter a password in the input field.
-3. Watch the strength bar change color as you type, indicating the strength of your password.
+3. Watch the strength bar change color as you type.
 4. After leaving the password field, a pop-up will appear with a humorous message based on your password strength.
+
+---
+
+## How It Works
+
+- **Flask Backend**: The Flask app (in `app.py`) receives the password from the frontend, checks its strength, and sends the result back as a JSON response.
+- **Frontend**: The frontend uses JavaScript to send the password to the Flask backend for evaluation. Based on the response, it updates the strength bar and displays the corresponding feedback.
 
 ---
 
@@ -68,20 +79,24 @@ You can change these messages in the `showPopup()` function within the JavaScrip
 - **HTML**: Structure of the web page.
 - **CSS**: Styling for the layout, strength bar, and pop-up animations.
 - **JavaScript**: Password strength evaluation, dynamic updates of the UI, and pop-up interactions.
+- **Python (Flask)**: Backend server that checks the password strength based on rules.
 
 ---
 
 ## License
 
-This project is licensed under the MIT License - see the [https://github.com/SaiGawand12/password-strength-tester/blob/main/LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICSENSE) file for details.
 
 ---
 
 ### Notes:
-- If you'd like to implement a backend for more accurate password strength evaluation, you can use libraries like `zxcvbn` or integrate it with any server-side language like Python, Node.js, etc.
-- The current version only simulates password strength with basic client-side JavaScript.
+- The current password strength evaluation is done using basic rules in Flask (such as checking length, uppercase letters, numbers). You can further enhance this with more advanced algorithms or integrate libraries like `zxcvbn`.
+- The pop-up is triggered once the user leaves the password field, offering humorous feedback based on the password's strength.
 
 ---
 
-Feel free to customize the application and use it as a learning project, or add more features like a password generator, password validation rules, etc.
+Feel free to customize the application and use it as a learning project or add more features like a password generator, password validation rules, etc.
 
+---
+
+This README includes both the **Flask backend** and **frontend** setup, along with how everything works together.
