@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Strength Tester</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        .strength {
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .strength-bar {
+            height: 10px;
+            width: 100%;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        /* Weak, Moderate, Strong colors */
+        .weak {
+            color: red;
+            background-color: #fdd;
+        }
+
+        .moderate {
+            color: orange;
+            background-color: #ffe4b5;
+        }
+
+        .strong {
+            color: green;
+            background-color: #d4edda;
+        }
+
+        .weak-bar {
+            background-color: red;
+            width: 33%;
+        }
+
+        .moderate-bar {
+            background-color: orange;
+            width: 66%;
+        }
+
+        .strong-bar {
+            background-color: green;
+            width: 100%;
+        }
+
+        /* Pop-up styles */
+        #popup {
+            position: fixed;
+            top: 20px;
+            right: -300px; /* Initially hidden */
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            width: 280px;
+            transition: all 0.5s ease;
+        }
+
+        #popup.show {
+            right: 20px; /* Slide in effect */
+        }
+
+        #popup h2 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        #popup p {
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Password Strength Tester</h1>
+    <input type="password" id="password" placeholder="Enter your password" oninput="checkStrength()">
+    <div id="strengthResult" class="strength"></div>
+    <div id="strengthBar" class="strength-bar"></div>
+</div>
+
+<!-- Pop-up message -->
+<div id="popup">
+    <h2>Weak Password!</h2>
+    <p>Your password is as weak as a wet noodle.</p>
+</div>
+
+<script>
+    function checkStrength() {
+        const password = document.getElementById('password').value;
+        const strengthResult = document.getElementById('strengthResult');
+        const strengthBar = document.getElementById('strengthBar');
+        const popup = document.getElementById('popup');
+
+        // Send the password to the backend for analysis
+        fetch('/check_password_strength', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ password: password })
+        })
+        .then(response => response.json())
+        .then(data => {
+            const strength = data.strength;
+            const percentage = data.percentage;
+
+            // Update strength message
+            strengthResult.textContent = `Password Strength: ${strength}`;
+            strengthBar.className = `strength-bar ${strength.toLowerCase()}-bar`;
+
+            // Set the width of the strength bar based on percentage
+            strengthBar.style.width = `${percentage}%`;
+
+            // Show pop-up message based on strength
+            if (strength === 'Weak') {
+                showPopup('Weak Password!', 'Your password is as weak as a wet noodle.');
+            } else if (strength === 'Moderate') {
+                showPopup('Moderate Password!', 'Your password is decent, but you can do better.');
+            } else if (strength === 'Strong') {
+                showPopup('Strong Password!', 'Great job! Your password is rock solid!');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    // Function to show the pop-up message with rude comments
+    function showPopup(title, message) {
+        const popup = document.getElementById('popup');
+        popup.querySelector('h2').textContent = title;
+        popup.querySelector('p').textContent = message;
+
+        // Add the 'show' class to trigger the slide-in effect
+        popup.classList.add('show');
+
+        // Hide the pop-up after 3 seconds
+        setTimeout(() => {
+            popup.classList.remove('show');
+        }, 15000);
+    }
+</script>
+
+</body>
+</html>
